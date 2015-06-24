@@ -10,6 +10,13 @@ import {bind, Injectable} from "angular2/di";
 
 const SERVER = "http://localhost:3000/games";
 
+interface Game {
+    name: string;
+    thumbnail: string;
+    price: number;
+    id: number;
+}
+
 class CartService{
     games = [];
     total =()=> this.games
@@ -27,19 +34,15 @@ class GameCart{
 }
 
 
-
 @Component({
     selector:"game-item",
-    properties: ["name", "thumbnail", "price"]
+    properties: ["game"]
 
 })
 @View({templateUrl:"templates/game-item.html"})
 class GameItem{
-    name: string;
-    thumbnail: string;
-    price: number;
-    id: number;
-    color = () => this.price > 40 ? "red" : "white";
+    game: Game;
+    color = () => this.game.price > 40 ? "red" : "white";
 }
 
 
@@ -60,7 +63,7 @@ class GameList{
         console.log(this.cartService);
     }
 
-    onGameClick(game){
+    onGameClick(game: Game){
         this.cartService.games.push(game);
     }
 }
